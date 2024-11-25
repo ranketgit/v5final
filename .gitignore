@@ -42,3 +42,9 @@ pnpm-lock.yaml
 
 # Optional: Typescript build info
 *.tsbuildinfo
+
+
+sitemap.xml
+sitemap1.xml
+sitemap2.xml
+sitemap3.xml
