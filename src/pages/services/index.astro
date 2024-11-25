@@ -1,0 +1,43 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { services } from '../../data/services';
+
+const title = "Nos Services de Marketing Digital au Maroc - Agence V5";
+const description = "Découvrez notre gamme complète de services marketing digital. SEO, réseaux sociaux, publicité en ligne et plus encore. Solutions sur mesure pour votre entreprise.";
+---
+
+<Layout title={title} description={description}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <h1 class="text-4xl font-bold text-gray-900 mb-8 text-center">
+      Nos Services Marketing Digital
+    </h1>
+
+    <div class="space-y-16">
+      {services.map(category => (
+        <div id={category.slug} class="scroll-mt-24">
+          <h2 class="text-3xl font-bold text-gray-900 mb-8">{category.category}</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {category.subcategories.map(subcategory => (
+              <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
+                <h3 class="text-xl font-semibold text-primary-500 mb-4">{subcategory.name}</h3>
+                <ul class="space-y-3">
+                  {subcategory.services.map(service => (
+                    <li>
+                      <a 
+                        href={`/services/${category.slug}/${subcategory.slug}/${service.slug}`}
+                        class="text-gray-600 hover:text-primary-500 flex items-center group"
+                      >
+                        <span class="mr-2 opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                        {service.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</Layout>

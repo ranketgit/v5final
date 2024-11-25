@@ -1,0 +1,253 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import { services } from '../../data/services';
+
+export async function getStaticPaths() {
+  const paths = [];
+  
+  // Add main category pages
+  services.forEach(category => {
+    paths.push({
+      params: { service: category.slug },
+      props: {
+        title: category.category,
+        type: 'category',
+        data: category
+      }
+    });
+
+    // Add subcategory pages
+    category.subcategories.forEach(subcategory => {
+      paths.push({
+        params: { service: subcategory.slug },
+        props: {
+          title: subcategory.name,
+          type: 'subcategory',
+          data: subcategory,
+          category: category
+        }
+      });
+
+      // Add individual service pages
+      subcategory.services.forEach(service => {
+        paths.push({
+          params: { service: service.slug },
+          props: {
+            title: service.name,
+            type: 'service',
+            data: service,
+            category: category,
+            subcategory: subcategory
+          }
+        });
+      });
+    });
+  });
+  
+  return paths;
+}
+
+const { title, type, data, category, subcategory } = Astro.props;
+const pageTitle = `${title} au Maroc - Agence V5`;
+const description = type === 'service' 
+  ? `Services professionnels de ${title} pour votre entreprise au Maroc. Expertise reconnue, résultats garantis. Contactez Agence V5 dès maintenant.`
+  : `Découvrez nos services de ${title} au Maroc. Solutions personnalisées et expertise reconnue pour votre succès digital.`;
+
+// Service category descriptions
+const categoryDescriptions = {
+  'strategie-numerique': {
+    intro: "Dans un monde digital en constante évolution, une stratégie numérique solide est la clé de votre succès. Notre expertise en stratégie numérique combine une approche data-driven avec une compréhension approfondie du marché marocain pour transformer votre présence en ligne.",
+    detail: "Chez Agence V5, nous développons des stratégies numériques personnalisées qui répondent aux objectifs spécifiques de votre entreprise. De l'audit initial à la mise en œuvre complète, nous vous accompagnons à chaque étape pour assurer une transformation digitale réussie et durable."
+  },
+  'seo-sem': {
+    intro: "Le référencement naturel (SEO) et le marketing sur les moteurs de recherche (SEM) sont essentiels pour accroître votre visibilité en ligne. Notre approche combine techniques avancées et expertise locale pour maximiser votre présence sur les moteurs de recherche.",
+    detail: "Nous utilisons les dernières technologies et meilleures pratiques en SEO et SEM pour propulser votre site web vers les premiers résultats de recherche. Notre équipe d'experts optimise chaque aspect de votre présence en ligne pour générer un trafic qualifié et des conversions."
+  },
+  'marketing-de-contenu': {
+    intro: "Le marketing de contenu est au cœur d'une stratégie digitale efficace. Nous créons du contenu engageant et pertinent qui résonne avec votre audience cible tout en renforçant votre autorité dans votre domaine.",
+    detail: "Notre approche du marketing de contenu combine créativité et stratégie pour produire du contenu qui non seulement attire l'attention mais convertit aussi vos visiteurs en clients fidèles. Chaque contenu est optimisé pour les moteurs de recherche et adapté à votre audience marocaine."
+  },
+  'reseaux-sociaux': {
+    intro: "Les réseaux sociaux sont devenus incontournables pour établir une connexion authentique avec votre audience. Notre expertise en gestion des réseaux sociaux vous aide à construire une communauté engagée et à renforcer votre marque en ligne.",
+    detail: "Nous développons des stratégies social media sur mesure qui augmentent votre visibilité, engagent votre communauté et génèrent des résultats mesurables. De la création de contenu à la gestion de communauté, nous assurons une présence cohérente et impactante sur tous les réseaux."
+  },
+  'publicite-en-ligne': {
+    intro: "La publicité en ligne offre une opportunité unique de toucher votre audience cible avec précision. Nos campagnes publicitaires sont conçues pour maximiser votre retour sur investissement tout en optimisant vos coûts d'acquisition.",
+    detail: "Notre expertise en publicité digitale couvre toutes les plateformes majeures, avec une approche data-driven qui garantit des campagnes performantes. Nous optimisons continuellement vos campagnes pour atteindre vos objectifs commerciaux tout en maintenant un coût par acquisition optimal."
+  },
+  'marketing-influence': {
+    intro: "Le marketing d'influence est devenu un levier puissant pour toucher votre audience de manière authentique. Nous collaborons avec les influenceurs les plus pertinents pour votre marque afin de créer des connexions significatives avec votre public cible.",
+    detail: "Notre approche du marketing d'influence combine une sélection minutieuse des influenceurs, une stratégie de contenu créative et un suivi précis des performances. Nous créons des campagnes qui génèrent un impact réel et mesurable pour votre marque."
+  },
+  'email-marketing': {
+    intro: "L'email marketing reste l'un des canaux les plus efficaces pour communiquer avec vos clients. Notre expertise en email marketing vous permet de créer des campagnes personnalisées qui génèrent des résultats concrets.",
+    detail: "Nous concevons des stratégies d'email marketing qui combinent personnalisation, automatisation et analyse de données pour maximiser l'engagement et les conversions. Chaque campagne est optimisée pour renforcer la relation avec vos clients et stimuler la croissance de votre entreprise."
+  },
+  'analyse-donnees': {
+    intro: "L'analyse de données est la clé pour prendre des décisions marketing éclairées. Notre approche data-driven vous permet de comprendre en profondeur vos performances digitales et d'optimiser vos stratégies marketing.",
+    detail: "Nous utilisons des outils analytiques avancés pour transformer vos données en insights actionnables. Notre expertise en analyse de données vous aide à identifier les opportunités d'amélioration et à maximiser le ROI de vos investissements marketing."
+  },
+  'developpement-web': {
+    intro: "Un site web performant est la base de votre présence digitale. Notre expertise en développement web combine design moderne, performances techniques et expérience utilisateur optimale pour créer des sites qui convertissent.",
+    detail: "Nous développons des solutions web sur mesure qui répondent à vos objectifs business tout en offrant une expérience utilisateur exceptionnelle. De la conception à la maintenance, nous assurons que votre site reste à la pointe de la technologie."
+  }
+};
+
+const getCategoryDescription = (slug: string) => {
+  return categoryDescriptions[slug] || {
+    intro: `Nos services de ${title} sont conçus pour répondre aux besoins spécifiques des entreprises marocaines. Nous combinons expertise technique et connaissance du marché local pour vous offrir des solutions performantes.`,
+    detail: `Avec une approche personnalisée et data-driven, nous vous accompagnons dans la mise en place de stratégies ${title.toLowerCase()} efficaces qui génèrent des résultats mesurables pour votre entreprise.`
+  };
+};
+---
+
+<Layout title={pageTitle} description={description}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <!-- Main Content -->
+      <div class="lg:col-span-2">
+        <h1 class="text-4xl font-bold text-gray-900 mb-6">{title}</h1>
+        
+        <div class="prose prose-lg max-w-none mb-12">
+          {type === 'category' && (
+            <div class="bg-gradient-to-br from-primary-50 to-white rounded-2xl p-8 mb-8">
+              <p class="text-gray-800 mb-4">
+                {getCategoryDescription(data.slug).intro}
+              </p>
+              <p class="text-gray-800">
+                {getCategoryDescription(data.slug).detail}
+              </p>
+            </div>
+          )}
+
+          {type === 'service' && (
+            <div class="bg-gradient-to-br from-primary-50 to-white rounded-2xl p-8 mb-8">
+              <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+                Expertise en {title} au Maroc
+              </h2>
+              <p class="text-gray-600">
+                {data.description}
+              </p>
+            </div>
+          )}
+
+          {type === 'category' && (
+            <div class="space-y-8">
+              {data.subcategories.map(sub => (
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                  <h2 class="text-2xl font-semibold text-primary-500 mb-4">
+                    {sub.name}
+                  </h2>
+                  <ul class="space-y-3">
+                    {sub.services.map(service => (
+                      <li>
+                        <a 
+                          href={`/services/${service.slug}`}
+                          class="text-gray-600 hover:text-primary-500 flex items-center group"
+                        >
+                          <span class="mr-2 opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                          {service.name}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {type === 'subcategory' && (
+            <div class="space-y-8">
+              {data.services.map(service => (
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                  <h2 class="text-2xl font-semibold text-primary-500 mb-4">
+                    {service.name}
+                  </h2>
+                  <p class="text-gray-600 mb-4">{service.description}</p>
+                  <a 
+                    href={`/services/${service.slug}`}
+                    class="inline-flex items-center text-primary-500 hover:text-primary-600"
+                  >
+                    En savoir plus
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                  </a>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {type === 'service' && (
+            <>
+              <section>
+                <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+                  Pourquoi Choisir Notre Service de {title} ?
+                </h2>
+                <p>
+                  Dans le paysage numérique marocain en constante évolution, un {title} efficace 
+                  est essentiel pour se démarquer de la concurrence. Chez Agence V5, nous combinons expertise 
+                  technique et connaissance approfondie du marché local pour offrir des solutions sur mesure 
+                  qui répondent à vos objectifs spécifiques.
+                </p>
+              </section>
+
+              <section>
+                <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+                  Notre Approche
+                </h2>
+                <ul class="space-y-4">
+                  <li class="flex items-start">
+                    <svg class="w-6 h-6 text-primary-500 mr-3 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span>Analyse approfondie de vos besoins et objectifs</span>
+                  </li>
+                  <li class="flex items-start">
+                    <svg class="w-6 h-6 text-primary-500 mr-3 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span>Stratégie personnalisée adaptée à votre secteur</span>
+                  </li>
+                  <li class="flex items-start">
+                    <svg class="w-6 h-6 text-primary-500 mr-3 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span>Suivi régulier et optimisation continue</span>
+                  </li>
+                </ul>
+              </section>
+            </>
+          )}
+        </div>
+
+        <!-- Call to Action -->
+        <div class="flex flex-col sm:flex-row gap-4 items-center justify-center">
+          <a 
+            href="/contactez-nous" 
+            class="btn-primary"
+          >
+            Demander un Devis Gratuit
+          </a>
+          <a 
+            href="tel:+212661196147" 
+            class="inline-flex items-center px-6 py-3 border border-primary-500 text-base font-medium rounded-md text-primary-600 bg-white hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+          >
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+            </svg>
+            +212 6 61 19 61 47
+          </a>
+        </div>
+      </div>
+
+      <!-- Sidebar with Contact Form -->
+      <div class="lg:col-span-1">
+        <div class="sticky top-24">
+          <ContactForm />
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

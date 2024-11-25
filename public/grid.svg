@@ -1,0 +1,4 @@
+<content><svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M1 1h98v98H1z" stroke="currentColor" stroke-opacity="0.1" stroke-width="2"/>
+  <path d="M1 25h98M1 50h98M1 75h98M25 1v98M50 1v98M75 1v98" stroke="currentColor" stroke-opacity="0.1" stroke-width="1"/>
+</svg></content>

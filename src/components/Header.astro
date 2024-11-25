@@ -1,0 +1,228 @@
+---
+import { cities } from '../data/cities';
+import { services } from '../data/services';
+
+const menuItems = [
+  { href: '/', text: 'Accueil' },
+  {
+    text: 'Services',
+    items: services.map(category => ({
+      text: category.category,
+      href: `/services/${category.slug}`,
+      subitems: category.subcategories.map(sub => ({
+        text: sub.name,
+        href: `/services/${sub.slug}`
+      }))
+    }))
+  },
+  {
+    text: 'Villes',
+    items: cities.map(section => ({
+      text: section.section,
+      items: section.cities.map(city => ({
+        text: city.name,
+        href: `/${city.slug}/marketing-digital`
+      }))
+    }))
+  },
+  { href: '/contactez-nous', text: 'Contactez-nous' },
+  { href: '/a-propos', text: 'A Propos' },
+];
+---
+
+<header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16">
+      <div class="flex items-center">
+        <a href="/" class="text-2xl font-bold text-primary-500">
+          Agence V5
+        </a>
+      </div>
+
+      <!-- Desktop Menu -->
+      <div class="hidden sm:ml-6 sm:flex sm:items-center sm:space-x-8">
+        {menuItems.map(item => (
+          'items' in item ? (
+            <div class="relative group h-16 flex items-center">
+              <button class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-700 hover:text-primary-500">
+                {item.text}
+                <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div class="absolute left-0 top-full mt-2 w-72 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                <div class="relative">
+                  <div class="absolute -top-2 left-0 w-full h-2"></div>
+                  <div class="bg-white rounded-lg shadow-lg border border-gray-100 max-h-[calc(100vh-6rem)] overflow-y-auto">
+                    {'subitems' in item.items[0] ? (
+                      <div class="p-4 space-y-4">
+                        {item.items.map(category => (
+                          <div>
+                            <a href={category.href} class="block font-medium text-gray-900 hover:text-primary-500">
+                              {category.text}
+                            </a>
+                            <div class="mt-2 ml-4 space-y-2">
+                              {category.subitems.map(subitem => (
+                                <a href={subitem.href} class="block text-sm text-gray-600 hover:text-primary-500">
+                                  {subitem.text}
+                                </a>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div class="p-4">
+                        {item.items.map(section => (
+                          <div class="mb-4 last:mb-0">
+                            <h4 class="font-medium text-gray-900 mb-2">{section.text}</h4>
+                            <div class="flex flex-col space-y-2">
+                              {section.items.map(city => (
+                                <a href={city.href} class="text-sm text-gray-600 hover:text-primary-500">
+                                  {city.text}
+                                </a>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <a
+              href={item.href}
+              class="inline-flex items-center h-16 px-1 text-sm font-medium text-gray-700 hover:text-primary-500"
+            >
+              {item.text}
+            </a>
+          )
+        ))}
+      </div>
+
+      <!-- Mobile menu button -->
+      <div class="sm:hidden flex items-center">
+        <button
+          type="button"
+          class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-primary-500 hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
+          aria-controls="mobile-menu"
+          aria-expanded="false"
+        >
+          <span class="sr-only">Open main menu</span>
+          <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="sm:hidden hidden" id="mobile-menu">
+      <div class="pt-2 pb-3 space-y-1">
+        {menuItems.map(item => (
+          'items' in item ? (
+            <div class="mobile-dropdown">
+              <button class="w-full flex items-center justify-between px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-500 hover:bg-primary-50 rounded-md">
+                {item.text}
+                <svg class="ml-2 w-4 h-4 transform transition-transform mobile-dropdown-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div class="hidden mobile-dropdown-content bg-gray-50 rounded-md mt-1">
+                {'subitems' in item.items[0] ? (
+                  <div class="p-3 space-y-3">
+                    {item.items.map(category => (
+                      <div>
+                        <a href={category.href} class="block font-medium text-gray-900 hover:text-primary-500 px-3 py-1">
+                          {category.text}
+                        </a>
+                        <div class="ml-4 mt-1 space-y-1">
+                          {category.subitems.map(subitem => (
+                            <a href={subitem.href} class="block text-sm text-gray-600 hover:text-primary-500 px-3 py-1">
+                              {subitem.text}
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div class="p-3">
+                    {item.items.map(section => (
+                      <div class="mb-3 last:mb-0">
+                        <h4 class="font-medium text-gray-900 px-3 py-1">{section.text}</h4>
+                        <div class="ml-4 space-y-1">
+                          {section.items.map(city => (
+                            <a href={city.href} class="block text-sm text-gray-600 hover:text-primary-500 px-3 py-1">
+                              {city.text}
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            <a
+              href={item.href}
+              class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-500 hover:bg-primary-50 rounded-md"
+            >
+              {item.text}
+            </a>
+          )
+        ))}
+      </div>
+    </div>
+  </nav>
+</header>
+
+<script>
+  // Mobile menu toggle
+  const mobileMenuButton = document.querySelector('.mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuIcons = mobileMenuButton?.querySelectorAll('svg');
+
+  mobileMenuButton?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('hidden');
+    menuIcons?.forEach(icon => icon.classList.toggle('hidden'));
+  });
+
+  // Mobile dropdowns
+  const mobileDropdowns = document.querySelectorAll('.mobile-dropdown');
+  
+  mobileDropdowns.forEach(dropdown => {
+    const button = dropdown.querySelector('button');
+    const content = dropdown.querySelector('.mobile-dropdown-content');
+    const icon = dropdown.querySelector('.mobile-dropdown-icon');
+    
+    button?.addEventListener('click', () => {
+      content?.classList.toggle('hidden');
+      icon?.classList.toggle('rotate-180');
+      
+      // Close other dropdowns
+      mobileDropdowns.forEach(otherDropdown => {
+        if (otherDropdown !== dropdown) {
+          otherDropdown.querySelector('.mobile-dropdown-content')?.classList.add('hidden');
+          otherDropdown.querySelector('.mobile-dropdown-icon')?.classList.remove('rotate-180');
+        }
+      });
+    });
+  });
+
+  // Close mobile menu when clicking outside
+  document.addEventListener('click', (event) => {
+    const target = event.target as Element;
+    if (!target.closest('.mobile-menu-button') && !target.closest('#mobile-menu')) {
+      mobileMenu?.classList.add('hidden');
+      menuIcons?.[0].classList.remove('hidden');
+      menuIcons?.[1].classList.add('hidden');
+    }
+  });
+</script>

@@ -1,0 +1,44 @@
+---
+const stats = [
+  {
+    title: "Présence Digitale",
+    value: "85%",
+    description: "des consommateurs marocains recherchent des produits et services en ligne avant l'achat"
+  },
+  {
+    title: "Croissance E-commerce",
+    value: "+30%",
+    description: "de croissance annuelle du marché e-commerce au Maroc"
+  },
+  {
+    title: "Engagement Client",
+    value: "20M+",
+    description: "d'utilisateurs de réseaux sociaux au Maroc"
+  }
+]
+---
+
+<section class="py-24 bg-gradient-to-b from-white to-blue-50/50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+        L'Importance du Marketing Digital au Maroc
+      </h2>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        Dans un marché marocain en pleine transformation numérique, une stratégie digitale solide est essentielle pour votre succès.
+      </p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {stats.map(stat => (
+        <div class="relative group">
+          <div class="absolute inset-0 bg-gradient-to-br from-primary-500 to-primary-600 rounded-2xl blur-xl opacity-20 group-hover:opacity-30 transition-opacity"></div>
+          <div class="relative p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+            <h3 class="text-3xl font-bold text-primary-500 mb-2">{stat.value}</h3>
+            <h4 class="text-xl font-semibold text-gray-900 mb-3">{stat.title}</h4>
+            <p class="text-gray-600">{stat.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

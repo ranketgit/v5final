@@ -1,0 +1,23 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import ServicesGrid from '../components/ServicesGrid.astro';
+import CitiesGrid from '../components/CitiesGrid.astro';
+import MarketingImportance from '../components/MarketingImportance.astro';
+import HomeContact from '../components/HomeContact.astro';
+import MarketingMorocco from '../components/MarketingMorocco.astro';
+import MarketingSuccess from '../components/MarketingSuccess.astro';
+
+const title = "Agence Marketing Digital au Maroc - Agence V5";
+const description = "Agence V5, votre partenaire en marketing digital au Maroc. Expertise en SEO, réseaux sociaux, publicité en ligne et stratégie numérique.";
+---
+
+<Layout title={title} description={description}>
+  <Hero />
+  <MarketingImportance />
+  <HomeContact />
+  <ServicesGrid />
+  <MarketingMorocco />
+  <CitiesGrid />
+  <MarketingSuccess />
+</Layout>

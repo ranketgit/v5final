@@ -1,0 +1,30 @@
+---
+import { cities } from '../data/cities';
+---
+
+<section class="py-24 bg-gradient-to-b from-blue-50/50 to-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-16 text-center">
+      Nos Services Dans Tout le Maroc
+    </h2>
+    
+    {cities.map(section => (
+      <div class="mb-16 last:mb-0">
+        <h3 class="text-2xl font-semibold text-gray-900 mb-8">{section.section}</h3>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {section.cities.map(city => (
+            <a
+              href={`/${city.slug}/marketing-digital`}
+              class="group relative"
+            >
+              <div class="absolute inset-0 bg-gradient-to-br from-primary-500/20 to-primary-600/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+              <div class="relative p-6 text-center rounded-xl bg-white shadow-md group-hover:shadow-xl transition-all duration-300">
+                <span class="text-gray-800 group-hover:text-primary-500 font-medium transition-colors">{city.name}</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

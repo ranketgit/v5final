@@ -1,0 +1,200 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import { cities } from '../../data/cities';
+import { services } from '../../data/services';
+
+export async function getStaticPaths() {
+  const paths = [];
+  const allCities = cities.flatMap(section => section.cities);
+  
+  for (const city of allCities) {
+    for (const category of services) {
+      // Add category pages
+      paths.push({
+        params: { 
+          city: city.slug,
+          service: category.slug 
+        },
+        props: {
+          city,
+          service: category,
+          type: 'category'
+        }
+      });
+
+      // Add subcategory pages
+      for (const subcategory of category.subcategories) {
+        paths.push({
+          params: { 
+            city: city.slug,
+            service: subcategory.slug 
+          },
+          props: {
+            city,
+            service: subcategory,
+            type: 'subcategory',
+            category
+          }
+        });
+
+        // Add individual service pages
+        for (const service of subcategory.services) {
+          paths.push({
+            params: { 
+              city: city.slug,
+              service: service.slug 
+            },
+            props: {
+              city,
+              service,
+              type: 'service',
+              category,
+              subcategory
+            }
+          });
+        }
+      }
+    }
+  }
+  
+  return paths;
+}
+
+const { city, service, type, category, subcategory } = Astro.props;
+const title = `${service.name || service.category} à ${city.name} - Agence V5`;
+const description = `Services professionnels de ${service.name || service.category} à ${city.name}. Solutions personnalisées et résultats garantis pour votre entreprise.`;
+---
+
+<Layout title={title} description={description}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <!-- Main Content -->
+      <div class="lg:col-span-2">
+        <h1 class="text-4xl font-bold text-gray-900 mb-6">
+          {service.name || service.category} à {city.name}
+        </h1>
+        
+        <div class="prose prose-lg max-w-none mb-12">
+          <div class="bg-gradient-to-br from-primary-50 to-white rounded-2xl p-8 mb-8">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+              Expert en {service.name || service.category} à {city.name}
+            </h2>
+            <p class="text-gray-600">
+              {service.description || `Solutions personnalisées de ${service.name || service.category} 
+              adaptées aux besoins spécifiques des entreprises de ${city.name}.`}
+            </p>
+          </div>
+
+          {type === 'service' && (
+            <>
+              <section>
+                <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+                  Notre Expertise en {service.name} à {city.name}
+                </h2>
+                <p>
+                  Chez Agence V5, nous comprenons les défis uniques auxquels font face les entreprises 
+                  de {city.name}. Notre service de {service.name} est spécialement conçu pour répondre 
+                  aux besoins spécifiques du marché local.
+                </p>
+              </section>
+
+              <section>
+                <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+                  Pourquoi Choisir Nos Services à {city.name} ?
+                </h2>
+                <ul class="space-y-4">
+                  <li class="flex items-start">
+                    <svg class="w-6 h-6 text-primary-500 mr-3 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span>Expertise locale et connaissance du marché de {city.name}</span>
+                  </li>
+                  <li class="flex items-start">
+                    <svg class="w-6 h-6 text-primary-500 mr-3 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span>Solutions personnalisées pour votre secteur</span>
+                  </li>
+                  <li class="flex items-start">
+                    <svg class="w-6 h-6 text-primary-500 mr-3 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span>Résultats mesurables et ROI optimisé</span>
+                  </li>
+                </ul>
+              </section>
+            </>
+          )}
+
+          {(type === 'category' || type === 'subcategory') && (
+            <div class="space-y-8">
+              {type === 'category' ? service.subcategories.map(sub => (
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                  <h2 class="text-2xl font-semibold text-primary-500 mb-4">
+                    {sub.name}
+                  </h2>
+                  <ul class="space-y-3">
+                    {sub.services.map(s => (
+                      <li>
+                        <a 
+                          href={`/${city.slug}/${s.slug}`}
+                          class="text-gray-600 hover:text-primary-500 flex items-center group"
+                        >
+                          <span class="mr-2 opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                          {s.name}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )) : service.services.map(s => (
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                  <h2 class="text-2xl font-semibold text-primary-500 mb-4">
+                    {s.name}
+                  </h2>
+                  <p class="text-gray-600 mb-4">{s.description}</p>
+                  <a 
+                    href={`/${city.slug}/${s.slug}`}
+                    class="inline-flex items-center text-primary-500 hover:text-primary-600"
+                  >
+                    En savoir plus
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                  </a>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <!-- Call to Action -->
+        <div class="flex flex-col sm:flex-row gap-4 items-center justify-center">
+          <a 
+            href="/contactez-nous" 
+            class="btn-primary"
+          >
+            Demander un Devis Gratuit
+          </a>
+          <a 
+            href="tel:+212661196147" 
+            class="inline-flex items-center px-6 py-3 border border-primary-500 text-base font-medium rounded-md text-primary-600 bg-white hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+          >
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+            </svg>
+            +212 6 61 19 61 47
+          </a>
+        </div>
+      </div>
+
+      <!-- Sidebar with Contact Form -->
+      <div class="lg:col-span-1">
+        <div class="sticky top-24">
+          <ContactForm />
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

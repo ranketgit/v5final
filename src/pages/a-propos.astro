@@ -1,0 +1,119 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const title = "À Propos de Notre Agence Marketing Digital - Agence V5";
+const description = "Découvrez V5 Digital, votre agence digitale de premier plan au Maroc. Notre expertise en marketing digital et notre approche data-driven pour votre succès digital.";
+
+const processSteps = [
+  {
+    title: "Analyse Stratégique",
+    description: "Nous plongeons dans les données pour comprendre vos besoins et objectifs. Notre équipe utilise une approche data-driven pour définir une stratégie digitale sur mesure, adaptée à votre marché et votre audience."
+  },
+  {
+    title: "Conception Personnalisée",
+    description: "Nous combinons notre expertise en marketing digital et Web avec les dernières avancées et Technologie pour créer des solutions uniques. Chaque projet est finement élaboré pour des résultats exceptionnels."
+  },
+  {
+    title: "Implémentation et Suivi",
+    description: "Grâce à notre approche agile, nous surveillons de près les performances et ajustons notre stratégie en temps réel pour obtenir des résultats remarquables."
+  }
+];
+
+const values = [
+  {
+    title: "Innovation",
+    description: "Nous restons à la pointe des dernières tendances et technologies du marketing digital."
+  },
+  {
+    title: "Excellence",
+    description: "Nous visons l'excellence dans chaque projet et chaque interaction client."
+  },
+  {
+    title: "Transparence",
+    description: "Nous maintenons une communication claire et honnête avec nos clients."
+  },
+  {
+    title: "Résultats",
+    description: "Nous nous concentrons sur des résultats mesurables et significatifs."
+  }
+];
+---
+
+<Layout title={title} description={description}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="max-w-3xl mx-auto text-center mb-16">
+      <h1 class="text-4xl font-bold text-gray-900 mb-6">À Propos de V5 Digital</h1>
+      <p class="text-xl text-gray-600">
+        Votre agence digitale de premier plan au Maroc
+      </p>
+    </div>
+
+    <div class="prose prose-lg max-w-none mb-16">
+      <div class="bg-gradient-to-br from-primary-50 to-white rounded-2xl p-8 mb-12">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">Notre Vision</h2>
+        <p class="text-gray-600">
+          Spécialisés dans le marketing digital à Casablanca, nous offrons une approche data-driven unique, 
+          combinant expertise en web marketing et technologie de pointe. En tant qu'agence de développement digitale, 
+          nous couvrons toutes les étapes d'un projet digital, de la stratégie à la mise en œuvre. Avec une approche 
+          axée sur les résultats, nous mettons en œuvre des solutions innovantes pour optimiser votre présence en ligne 
+          et stimuler votre succès dans le monde numérique.
+        </p>
+      </div>
+
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8">Notre Processus de Travail - Notre Méthode Agile</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {processSteps.map((step, index) => (
+            <div class="bg-white rounded-xl shadow-lg p-6 relative overflow-hidden group">
+              <div class="absolute top-0 left-0 w-2 h-full bg-primary-500 transform -skew-x-12"></div>
+              <div class="relative">
+                <span class="text-5xl font-bold text-primary-100 absolute -top-4 -left-2">{index + 1}</span>
+                <h3 class="text-xl font-semibold text-primary-500 mb-4 relative">{step.title}</h3>
+                <p class="text-gray-600">{step.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8">Notre Philosophie</h2>
+        <div class="bg-white rounded-xl shadow-lg p-8">
+          <p class="text-gray-600 mb-6">
+            À V5 Digital, nous croyons en une approche centrée sur le client et axée sur l'innovation. 
+            Notre équipe s'engage à fournir des solutions numériques de pointe qui répondent aux besoins 
+            spécifiques de nos clients tout en restant à la pointe des dernières tendances technologiques. 
+            Nous croyons fermement en la collaboration, la transparence et l'excellence, et nous nous efforçons 
+            de créer des partenariats durables et fructueux avec chacun de nos clients.
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {values.map(value => (
+              <div class="bg-gradient-to-br from-primary-50 to-white rounded-xl p-6">
+                <h3 class="text-xl font-semibold text-primary-500 mb-3">{value.title}</h3>
+                <p class="text-gray-600">{value.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div class="flex flex-col sm:flex-row gap-4 items-center justify-center">
+        <a 
+          href="/contactez-nous" 
+          class="btn-primary"
+        >
+          Discutez de Votre Projet
+        </a>
+        <a 
+          href="tel:+212661196147" 
+          class="inline-flex items-center px-6 py-3 border border-primary-500 text-base font-medium rounded-md text-primary-600 bg-white hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+        >
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+          </svg>
+          +212 6 61 19 61 47
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>

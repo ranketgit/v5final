@@ -1,0 +1,41 @@
+---
+import ContactForm from './ContactForm.astro';
+---
+
+<section class="py-16 bg-gradient-to-br from-primary-50 via-white to-primary-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+          Prêt à Transformer Votre Présence Digitale ?
+        </h2>
+        <p class="text-xl text-gray-600 mb-8">
+          Contactez-nous dès aujourd'hui pour une consultation gratuite et découvrez comment nous pouvons vous aider à atteindre vos objectifs.
+        </p>
+        <ul class="space-y-4 mb-8">
+          <li class="flex items-center text-gray-600">
+            <svg class="w-6 h-6 text-primary-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            Expertise locale et internationale
+          </li>
+          <li class="flex items-center text-gray-600">
+            <svg class="w-6 h-6 text-primary-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            Solutions personnalisées
+          </li>
+          <li class="flex items-center text-gray-600">
+            <svg class="w-6 h-6 text-primary-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            Résultats mesurables
+          </li>
+        </ul>
+      </div>
+      <div>
+        <ContactForm />
+      </div>
+    </div>
+  </div>
+</section>
