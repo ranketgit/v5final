@@ -43,7 +43,7 @@ const menuItems = [
       <div class="hidden sm:ml-6 sm:flex sm:items-center sm:space-x-8">
         {menuItems.map(item => (
           'items' in item ? (
-            <div class="relative group h-16 flex items-center">
+            <div class="menu relative group h-16 flex items-center">
               <button class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-700 hover:text-primary-500">
                 {item.text}
                 <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -226,3 +226,9 @@ const menuItems = [
     }
   });
 </script>
+
+<style>
+  .menu{
+    overflow: visible;
+  }
+</style>
