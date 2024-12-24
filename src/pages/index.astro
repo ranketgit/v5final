@@ -15,9 +15,29 @@ const description = "Agence V5, votre partenaire en marketing digital au Maroc. 
 <Layout title={title} description={description}>
   <Hero />
   <MarketingImportance />
+   <!-- Map Section -->
+   <section class="bg-dark-200">
+    <div class="container mx-auto px-4">
+      <img 
+        src="/agences.png" 
+        alt="Carte des bureaux au Maroc et au Royaume-Uni" 
+        class="w-full max-w-5xl mx-auto"
+      />
+    </div>
+  </section>
   <HomeContact />
   <ServicesGrid />
   <MarketingMorocco />
+  <!-- Global Clients Map -->
+  <section class="bg-dark-200">
+    <div class="container mx-auto px-4">
+      <img 
+        src="/map.png" 
+        alt="Carte mondiale de nos clients" 
+        class="w-full max-w-6xl mx-auto"
+      />
+    </div>
+  </section>
   <CitiesGrid />
   <MarketingSuccess />
 </Layout>
